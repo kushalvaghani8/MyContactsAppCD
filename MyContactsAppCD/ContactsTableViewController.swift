@@ -6,40 +6,93 @@
 //
 
 import UIKit
+import CoreData
+var Contacts = [Contact]()
+var addContact = AddContactViewController()
 
 class ContactsTableViewController: UITableViewController {
-
+    
+    var firstload = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
+        if (firstload) {
+            firstload = false
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Contact")
+            
+            do {
+                let results:NSArray = try context.fetch(request) as NSArray
+                for result in results {
+                    let contact = result as! Contact
+                    Contacts.append(contact)
+                }
+            }
+            catch{
+                print("Didn't get any contact")
+            }
+        }
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return Contacts.count
     }
+    
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCell", for: indexPath)
 
         // Configure the cell...
+        
+        cell.textLabel?.text = Contacts[indexPath.row].name
 
         return cell
     }
-    */
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.performSegue(withIdentifier: "editContact", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == "editContact") {
+            let indexPath = tableView.indexPathForSelectedRow!
+            
+            let contactDetail = segue.destination as? AddContactViewController
+            
+            let selectedContact: Contact!
+            selectedContact = Contacts[indexPath.row]
+            
+            contactDetail!.selectedContact = selectedContact
+            
+            
+        }
+    }
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -53,6 +106,7 @@ class ContactsTableViewController: UITableViewController {
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+           
             // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
