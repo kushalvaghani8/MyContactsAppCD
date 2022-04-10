@@ -46,9 +46,9 @@ class ContactsTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        tableView.reloadData()
-    }
+//    override func viewDidAppear(_ animated: Bool) {
+//        tableView.reloadData()
+//    }
 
     // MARK: - Table view data source
 
@@ -81,15 +81,20 @@ class ContactsTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "editContact") {
             let indexPath = tableView.indexPathForSelectedRow!
-            
             let contactDetail = segue.destination as? AddContactViewController
             
             let selectedContact: Contact!
             selectedContact = Contacts[indexPath.row]
             
             contactDetail!.selectedContact = selectedContact
-            
-            
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.transform = CGAffineTransform(scaleX: 0, y: 0)
+        
+        UIView.animate(withDuration: 0.5) {
+            cell.transform = CGAffineTransform(scaleX: 1, y: 1)
         }
     }
     
