@@ -16,6 +16,8 @@ class AddContactViewController: UIViewController {
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var phoneNumberTextField: UITextField!
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,6 +29,9 @@ class AddContactViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
+    
+    
+    
     
     
     @IBAction func saveButton(_ sender: Any) {
@@ -86,7 +91,8 @@ class AddContactViewController: UIViewController {
                 
                 let contact = result as! Contact
                 if(contact == selectedContact) {
-                    context.delete(result as! NSManagedObject)
+                    
+                    contact.deletedDate = Date()
                     try context.save()
                     navigationController?.popViewController(animated: true)
                     

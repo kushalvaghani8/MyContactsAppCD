@@ -14,6 +14,18 @@ class ContactsTableViewController: UITableViewController {
     
     var firstload = true
     
+    
+    func nonDeletedContacts() -> [Contact]{
+        var nonDeleteContactList = [Contact]()
+        for contact in Contacts {
+            if (contact.deletedDate == nil) {
+                nonDeleteContactList.append(contact)
+            }
+        }
+        return nonDeleteContactList
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -59,7 +71,7 @@ class ContactsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return Contacts.count
+        return nonDeletedContacts().count
     }
     
 
@@ -69,7 +81,7 @@ class ContactsTableViewController: UITableViewController {
 
         // Configure the cell...
         
-        cell.textLabel?.text = Contacts[indexPath.row].name
+        cell.textLabel?.text = nonDeletedContacts()[indexPath.row].name
 
         return cell
     }
@@ -84,7 +96,7 @@ class ContactsTableViewController: UITableViewController {
             let contactDetail = segue.destination as? AddContactViewController
             
             let selectedContact: Contact!
-            selectedContact = Contacts[indexPath.row]
+            selectedContact = nonDeletedContacts()[indexPath.row]
             
             contactDetail!.selectedContact = selectedContact
         }
