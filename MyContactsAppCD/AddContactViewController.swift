@@ -13,9 +13,10 @@ class AddContactViewController: UIViewController {
     var selectedContact: Contact? = nil
     
     
+    @IBOutlet weak var warningLabel: UILabel!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var phoneNumberTextField: UITextField!
-    
+   
     
     
     override func viewDidLoad() {
@@ -36,6 +37,13 @@ class AddContactViewController: UIViewController {
     
     @IBAction func saveButton(_ sender: Any) {
         
+        if (nameTextField.text!.count <  1) {
+            warningLabel.text = "Pleae enter a name"
+        } else if (phoneNumberTextField.text!.count < 1) {
+            warningLabel.text = "Please enter a phone number"
+        }
+        else {
+            warningLabel.text = ""
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
         if(selectedContact == nil) {
@@ -48,7 +56,6 @@ class AddContactViewController: UIViewController {
         do {
             try context.save()
             Contacts.append(newContact)
-            print(Contacts)
             navigationController?.popViewController(animated: true)
         } catch  {
             print("It failed")
@@ -74,6 +81,7 @@ class AddContactViewController: UIViewController {
             catch{
                 print("Didn't get any contact")
             }
+        }
         }
     }
     
