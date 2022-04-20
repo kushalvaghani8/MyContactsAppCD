@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F0430A5128108D2500AF136A /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0430A5028108D2500AF136A /* ContactsViewController.swift */; };
 		F0B4E68427F8E4DB000810FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0B4E68327F8E4DB000810FB /* AppDelegate.swift */; };
 		F0B4E68627F8E4DB000810FB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0B4E68527F8E4DB000810FB /* SceneDelegate.swift */; };
 		F0B4E68B27F8E4DB000810FB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F0B4E68927F8E4DB000810FB /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F0430A5028108D2500AF136A /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		F0B4E68027F8E4DB000810FB /* MyContactsAppCD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyContactsAppCD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0B4E68327F8E4DB000810FB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F0B4E68527F8E4DB000810FB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -65,6 +67,7 @@
 				F0B4E68327F8E4DB000810FB /* AppDelegate.swift */,
 				F0B4E68527F8E4DB000810FB /* SceneDelegate.swift */,
 				F0B4E68927F8E4DB000810FB /* Main.storyboard */,
+				F0430A5028108D2500AF136A /* ContactsViewController.swift */,
 				F0B4E69E27F8FA79000810FB /* Contact.swift */,
 				F0B4E69C27F8E61C000810FB /* AddContactViewController.swift */,
 				F0B4E69A27F8E5EA000810FB /* ContactsTableViewController.swift */,
@@ -148,6 +151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F0B4E69F27F8FA79000810FB /* Contact.swift in Sources */,
+				F0430A5128108D2500AF136A /* ContactsViewController.swift in Sources */,
 				F0B4E69D27F8E61C000810FB /* AddContactViewController.swift in Sources */,
 				F0B4E68E27F8E4DB000810FB /* MyContactsAppCD.xcdatamodeld in Sources */,
 				F0B4E68427F8E4DB000810FB /* AppDelegate.swift in Sources */,

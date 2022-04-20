@@ -12,14 +12,15 @@ var addContact = AddContactViewController()
 
 class ContactsTableViewController: UITableViewController {
     
+    @IBOutlet weak var imgView: UIImageView!
     var firstload = true
     
     
-    func nonDeletedContacts() -> [Contact]{
+    func nonDeletedContacts() -> [Contact]{ //checking if the contact is not deleted
         var nonDeleteContactList = [Contact]()
         for contact in Contacts {
-            if (contact.deletedDate == nil) {
-                nonDeleteContactList.append(contact)
+            if (contact.deletedDate == nil) { //we've saved date when contact is deleted, so checking if the date is nil, means the contact is not deleted
+                nonDeleteContactList.append(contact) //if its not, appending it to non deleted list
             }
         }
         return nonDeleteContactList
@@ -30,11 +31,13 @@ class ContactsTableViewController: UITableViewController {
         super.viewDidLoad()
 
         
-        if (firstload) {
+        if (firstload) { // if the app is running for first time getting all the contact from entity
             firstload = false
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Contact")
+            let sort = NSSortDescriptor(key: "name", ascending: true)
+            request.sortDescriptors = [sort]
             
             do {
                 let results:NSArray = try context.fetch(request) as NSArray
@@ -55,6 +58,7 @@ class ContactsTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+       
         tableView.reloadData()
     }
     
@@ -79,27 +83,41 @@ class ContactsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCell", for: indexPath)
 
-        // Configure the cell...
         
-        cell.textLabel?.text = nonDeletedContacts()[indexPath.row].name
+        // Configure the cell...
+        cell.textLabel?.text = nonDeletedContacts()[indexPath.row].name //if contact is not deleted
 
+        
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.performSegue(withIdentifier: "editContact", sender: self)
-    }
+//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        self.performSegue(withIdentifier: "editContact", sender: self)
+//    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if(segue.identifier == "editContact") {
-            let indexPath = tableView.indexPathForSelectedRow!
-            let contactDetail = segue.destination as? AddContactViewController
-            
-            let selectedContact: Contact!
-            selectedContact = nonDeletedContacts()[indexPath.row]
-            
-            contactDetail!.selectedContact = selectedContact
+       
+        if(segue.identifier == "ViewContact") { //checking if user just wants to view contact, else its in add new contact
+       
+        let dst = segue.destination as! ContactsViewController
+        let indexPath = tableView.indexPathForSelectedRow!
+        dst.selectedContact = nonDeletedContacts()[indexPath.row]
+        dst.index = tableView.indexPathForSelectedRow?.row
         }
+//
+//        if(segue.identifier == "viewContact") {
+//            let indexPath = tableView.indexPathForSelectedRow!
+//            let contactDetail = segue.destination as? ContactsViewController
+//
+//            let selectedContact: Contact!
+//            selectedContact = nonDeletedContacts()[indexPath.row]
+//            contactDetail!.selectedContact = selectedContact
+//
+//            print("****************")
+//            print(selectedContact!)
+//            print("****************")
+    
+        
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
